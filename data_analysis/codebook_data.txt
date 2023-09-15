@@ -1,0 +1,16 @@
+'participant': The participant ID.
+'session': The session number. Default is 1.
+'block': The block number (0 for training).
+'date': The date and time when the experiment started.
+'training': A flag indicating if the data is from the training phase (1 for yes, 0 for no).
+'test': A flag indicating if the data is from the testing phase (1 for yes, 0 for no).
+'rating': A flag indicating if row contains attention-rating data (1 for yes, otherwise None).
+'digit': The digit displayed in the trial (stimulus). Default digit between 1 and 9.
+'stimulus_size': The size of the stimulus. Default between 1 (smallest) and 5 (largest).
+'go_trial': A binary indicator indicating if it's a go-trial (1) or not (0).
+'key': The response key pressed that may be pressed by the participant.
+'status': A binary indicator indicating if the participant's response was correct (1) or not (0).
+'stimulus_time': The timestamp when the stimulus or the rating scale was displayed.
+'reaction_time': The timestamp when the participant responded.
+'reaction_duration': The duration between stimulus display and participant's response.
+'attention_rating': The attention rating given by the participant. From 1 (attention on task) to 6 (off task).
