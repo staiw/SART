@@ -19,8 +19,8 @@ import os
 experiment_name  = 'sart' # Relevant for data-file names
 
 # Set number of trials
-n_trials_train = 1     # Number of trails during the training block (default is 18)
-n_trials_test  = 2     # Number of trails during ONE testing block (default is 75)
+n_trials_train = 18     # Number of trails during the training block (default is 18)
+n_trials_test  = 75     # Number of trails during ONE testing block (default is 75)
 
 # Set keys
 response_key     = 'space'    # Key with which users respond
