@@ -22,7 +22,7 @@ You can change the general settings of the experiment (number of trials and bloc
 - Data analysis: The script ``data_analysis/read_in_data_in_R`` reads in the data into R and merges all data from a study.
 
 ### Repository Structure 🗺
-- ``sart``.py: The main script to run the SART task, consisting of the following three main three sections:
+- ``sart.py``: The main script to run the SART task, consisting of the following three main three sections:
   - ``Set variables``: You may change the general settings of the experiment here.
   - ``Define functions``: Code for defining the experimental procedure and how the data will be save.
   - ``Run experiment``: This section calls the previously defined function to run the experiment.
