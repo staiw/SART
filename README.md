@@ -14,14 +14,14 @@ You can change the general settings of the experiment (number of trials and bloc
 - users respond with the `space` key
 - the experiment may be quitted with `escape` key
 
-### Getting Started
+### Getting Started 🚀
 - Prerequisites: Ensure you have PsychoPy installed on your system.
 - Download: Clone or download this repository to your local machine.
 - Run: Open PsychoPy, navigate to the repository folder, and run the ``sart.py`` script to start the task.
 - Data saving: When running the task, the results are automatically saved as one CSV file per session/participant in the ``data`` folder. 
 - Data analysis: The script ``data_analysis/read_in_data_in_R`` reads in the data into R and merges all data from a study.
 
-### Repository Structure
+### Repository Structure 🗺
 - ``sart``.py: The main script to run the SART task, consisting of the following three main three sections:
   - ``Set variables``: You may change the general settings of the experiment here.
   - ``Define functions``: Code for defining the experimental procedure and how the data will be save.
@@ -32,7 +32,7 @@ You can change the general settings of the experiment (number of trials and bloc
   - ``read_in_data_in_R.R``: Script to read in and merge data from all participants of a study.
   - ``codebook_data.txt``: Explainations of all variables that are saved.
 
-### References
+### References 📚
 [1] Peirce, J. W., Gray, J. R., Simpson, S., MacAskill, M. R., Höchenberger, R., Sogo, H., Kastman, E., Lindeløv, J. (2019). PsychoPy2: experiments in behavior made easy. Behavior Research Methods. https://doi.org/10.3758/s13428-018-01193-y
 
 [2] Robertson, I. H., Manly, T., Andrade, J., Baddeley, B. T., & Yiend, J. (1997). Sustained Attention to Response Task (SART) [Database record]. APA PsycTests. https://doi.org/10.1037/t28308-000

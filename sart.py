@@ -15,35 +15,34 @@ import os
 ################################ Set variables ################################
 ###############################################################################
 
-#Set experiment name
-experiment_name  = 'sart' # Relevant for data-file names
-
 # Set number of trials
 n_trials_train = 18     # Number of trails during the training block (default is 18)
 n_trials_test  = 75     # Number of trails during ONE testing block (default is 75)
 
 # Set keys
-response_key     = 'space'    # Key with which users respond
-exit_key         = 'escape'   # Key to stop the experiment at any time
-experimenter_key = 'escape'   # Key experimenter uses to end the experiment on the last page
+response_key     = 'space'     # Key with which users respond
+exit_key         = 'escape'    # Key to stop the experiment at any time
+experimenter_key = 'escape'    # Key experimenter uses to end the experiment on the last page
 
 # General information about the experiment
 experiment_info = {
-    'participant': '',
-    'session'    : '001',     # Replace with '' to remove default value
-    'training'   : 1,         # 1 = include training, 0 = no training
-    'testing'    : 3,         # Number of testing blocks, 0 = no testing
-    'rating'     : 1,         # 1 = include attention rating, 0 = no rating
-    'date': data.getDateStr() # Date and time of the beginning of the session 
+    'experiment_name': 'sart', # Experiment name (relevant for data-file names)
+    'participant' : '',
+    'session'     : '001',     # Replace with '' to remove default value
+    'training'    : 1,         # 1 = include training, 0 = no training
+    'testing'     : 3,         # Number of testing blocks, 0 = no testing
+    'rating'      : 1,         # 1 = include attention rating, 0 = no rating
+    'date': data.getDateStr()  # Date and time of the beginning of the session 
 }
 
 # General information which should not be shown in the dialog
 popped_keys = { 
-    'date': experiment_info.pop('date', data.getDateStr()), # The date will not be displayed in the info dialog
-    'rating': experiment_info.pop('rating', 1), # Comment out this line if you want to change rating settings in the info dialog 
+    #'experiment_name': experiment_info.pop('experiment_name', 'sart'), # Remove first hashtag if you only run one experiment
     #'session': experiment_info.pop('session', '001'),      # Remove first hashtag if session number is always identical
     #'training': experiment_info.pop('training', 1),        # Remove first hashtag if sessions always or never include training
-    #'testing': experiment_info.pop('testing', 1)           # Remove first hashtag if number of test block is always identical
+    #'testing': experiment_info.pop('testing', 1),          # Remove first hashtag if number of test block is always identical
+    'date': experiment_info.pop('date', data.getDateStr()), # The date will not be displayed in the info dialog
+    'rating': experiment_info.pop('rating', 1) # Comment out this line if you want to change rating settings in the info dialog
 }
 
 # Set stimulus-display times (in seconds)
@@ -61,6 +60,9 @@ digit_range = list(range(1, 10)) # 1-9 (upper bond is NOT included)
 
 # Set inhibition number
 inhibition_number = 3 # Default is digit 3
+
+# Set images size
+image_rescale = (1.5, 1.5)
 
 # Set image file names
 title_screen        = 'img/title_screen.png'
@@ -170,7 +172,10 @@ def display_instructions(win, instructions, continue_key=[response_key]):
     """
     for instruction in instructions:
         # Load and display the instruction image
-        instruction_stim = visual.ImageStim(win, image=instruction)
+        instruction_stim = visual.ImageStim(win, image=instruction,
+                                           size = image_rescale)
+        #instruction_stim.size = 0.8
+        #instruction_stim.height = 0.5
         instruction_stim.draw()
         win.flip()
         
@@ -197,7 +202,7 @@ def display_ready_countdown(win):
     """
     for image_path in countdown_images:
         # Load and display the countdown image
-        countdown_stim = visual.ImageStim(win, image=image_path)
+        countdown_stim = visual.ImageStim(win, image=image_path, size = image_rescale)
         countdown_stim.draw()
         win.flip()
         
@@ -250,16 +255,16 @@ def run_block(win, n_trials, digits=digit_range, block=None):
     random.shuffle(stimuli)
 
     # Load images before the loop to prevent time delays
-    mask_stim_default = visual.ImageStim(win, image=mask)
-    mask_stim_correct = visual.ImageStim(win, image=mask_correct)
-    feedback_stim_inhibition = visual.ImageStim(win, image=feedback_inhibition)
-    feedback_stim_missed = visual.ImageStim(win, image=feedback_missed)
+    mask_stim_default = visual.ImageStim(win, image=mask, size = image_rescale)
+    mask_stim_correct = visual.ImageStim(win, image=mask_correct, size = image_rescale)
+    feedback_stim_inhibition = visual.ImageStim(win, image=feedback_inhibition, size = image_rescale)
+    feedback_stim_missed = visual.ImageStim(win, image=feedback_missed, size = image_rescale)
     
     for trial in stimuli:
         # Display the digit in a random font size 
         stimulus_height_index = random.choice(range(len(stimuli_heights)))
         digit_stim = visual.TextStim(win, text=str(trial), 
-                                     height=stimuli_heights[stimulus_height_index], 
+                                     height=stimuli_heights[stimulus_height_index]*0.001, 
                                      font=stimuli_font)
         digit_stim.draw()
         stimulus_time = win.flip()
@@ -387,7 +392,7 @@ def rate_attention(win, image_name, trial_data, block, min_val=1, max_val=6):
     - The function assumes that the user's inputs are limited to number keys '1' through '6' and the 'escape' key.
     """
     # Display attention scale
-    img = visual.ImageStim(win, image=image_name)
+    img = visual.ImageStim(win, image=image_name, size = image_rescale)
     img.draw()
     stimulus_time = win.flip()
     
@@ -475,8 +480,8 @@ def run_test_block(win, n_trials, block):
 
 def save_data(training_data=None, test_data=None, current_data=None, block=None, exit_time = None):
     """
-    Save experimental data into a CSV file. The CSV file is named based on the participant and date, 
-    and if the file already exists, the new data is appended to it.
+    Save experimental data into a CSV file. The CSV file is named based on the task name, 
+    participant ID and the date, and if the file already exists, the new data is appended to it.
 
     Parameters:
     - training_data: list of dict, optional
@@ -492,6 +497,7 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
 
     CSV Structure:
     The resulting CSV file will have columns for:
+    - experiment_name: Name of the experiment.
     - participant: The participant ID.
     - session: The session number.
     - block: The block number (0 for training).
@@ -521,9 +527,10 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
     - None. 
     """
     # Get general information about the session
-    participant = experiment_info['participant']
-    session     = experiment_info['session']
-    date        = experiment_info['date']
+    experiment_name = experiment_info['experiment_name']
+    participant     = experiment_info['participant']
+    session         = experiment_info['session']
+    date            = experiment_info['date']
 
     all_data = []
 
@@ -531,6 +538,7 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
     if training_data !=None:
         for data in training_data:
             row = {
+                'experiment_name': experiment_name,
                 'participant': participant,
                 'session': session,
                 'block': 0,
@@ -554,6 +562,7 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
     if test_data != None:
         for data in test_data:
             row = {
+                'experiment_name': experiment_name,
                 'participant': participant,
                 'session': session,
                 'block': block,
@@ -577,6 +586,7 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
     if current_data !=None:
         for data in current_data:
             row = {
+                'experiment_name': experiment_name,
                 'participant': participant,
                 'session': session,
                 'block': block,
@@ -599,23 +609,24 @@ def save_data(training_data=None, test_data=None, current_data=None, block=None,
     # If participant
     if exit_time !=None:  
         exit_row = {
-                'participant': participant,
-                'session': session,
-                'block': None,
-                'date': date,
-                'training': None,
-                'test': None,
-                'rating': None,
-                'digit': None,
-                'stimulus_size': None,
-                'go_trial': None,
-                'key': exit_key,
-                'status': None,
-                'stimulus_time': None,
-                'reaction_time': exit_time,
-                'reaction_duration': None,
-                'attention_rating': None
-            }
+            'experiment_name': experiment_name,
+            'participant': participant,
+            'session': session,
+            'block': None,
+            'date': date,
+            'training': None,
+            'test': None,
+            'rating': None,
+            'digit': None,
+            'stimulus_size': None,
+            'go_trial': None,
+            'key': exit_key,
+            'status': None,
+            'stimulus_time': None,
+            'reaction_time': exit_time,
+            'reaction_duration': None,
+            'attention_rating': None
+        }
         all_data.append(exit_row)
 
     # Save data in csv file
@@ -658,7 +669,7 @@ def main_experiment(experiment_info):
     experiment_info = show_info_dialog(experiment_info, popped_keys)
 
     # Set up the experiment window
-    win = visual.Window(fullscr=True, color="black", units="pix")
+    win = visual.Window(fullscr=True, color="black", units="norm")
     win.mouseVisible = False
 
     # Display introduction and task instructions

@@ -1,3 +1,4 @@
+'experiment_name': Name of the experiment. Relevant if several projects are carried out on the same computer.
 'participant': The participant ID.
 'session': The session number. Default is 1.
 'block': The block number (0 for training).
