@@ -1,5 +1,4 @@
 # SART for PsychoPy ⏱️3️⃣
-**Sustained Attention to Response Task with feedback after each trial and an optional attention rating**
 
 This repository provides a PsychoPy [1] implementation of the **Sustained Attention to Response Task (SART)** [2] with feedback after each trial  and an optional attention rating. Designed with psychological researchers and students in mind, this implementation aims to be user-friendly even for those with limited programming experience. 
 
