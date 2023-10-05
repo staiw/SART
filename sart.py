@@ -202,7 +202,10 @@ def display_ready_countdown(win):
         win.flip()
         
         # Wait for 1 second before showing the next countdown image
-        core.wait(1)
+        if '1' in image_path:
+            core.wait(.8)
+        else:
+            core.wait(1)
         check_for_quit(win)
 
 def run_block(win, n_trials, digits=digit_range, block=None):
@@ -256,6 +259,10 @@ def run_block(win, n_trials, digits=digit_range, block=None):
     feedback_stim_missed = visual.ImageStim(win, image=feedback_missed)
     
     for trial in stimuli:
+
+        # Clear (saved) reaction time
+        reaction_time = None
+
         # Display the digit in a random font size 
         stimulus_height_index = random.choice(range(len(stimuli_heights)))
         digit_stim = visual.TextStim(win, text=str(trial), 
@@ -271,6 +278,7 @@ def run_block(win, n_trials, digits=digit_range, block=None):
         # Handle response
         if keys is not None and trial != inhibition_number:
             # If a key was pressed in a go-trial, display green mask
+            reaction_time = keys[0][1]
             mask_stim = mask_stim_correct
         else:
             # If no key was pressed while the digit was displayed, display mask and wait
@@ -285,8 +293,6 @@ def run_block(win, n_trials, digits=digit_range, block=None):
                 reaction_time = keys[0][1]
                 if trial != inhibition_number:
                     mask_stim = mask_stim_correct
-            else:
-                reaction_time = None
         
         mask_stim.draw()
         win.flip()
