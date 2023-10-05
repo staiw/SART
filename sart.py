@@ -281,10 +281,11 @@ def run_block(win, n_trials, digits=digit_range, block=None):
         check_for_quit(win, current_data = trial_data, block=block, keys=keys)
 
         # Handle response
-        if keys is not None and trial != inhibition_number:
-            # If a key was pressed in a go-trial, display green mask
-            reaction_time = keys[0][1]
-            mask_stim = mask_stim_correct
+        if keys is not None: # Do not merge these two if statements (otherwise false gos arent covered)
+            if trial != inhibition_number:
+                # If a key was pressed in a go-trial, display green mask
+                reaction_time = keys[0][1]
+                mask_stim = mask_stim_correct
         else:
             # If no key was pressed while the digit was displayed, display mask and wait
             mask_stim = mask_stim_default
